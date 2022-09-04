@@ -1,5 +1,5 @@
 import React from "react"
 
-export const EditPostPage = () => {
-    return <div>Edit Post Page</div>
+export const LoginPage = () => {
+    return <div>Login Page</div>
 }

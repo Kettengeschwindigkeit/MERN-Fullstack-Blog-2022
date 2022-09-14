@@ -14,6 +14,7 @@ export const registerUser = createAsyncThunk('auth/registerUser', async ({ usern
             username,
             password
         })
+        console.log(data)
         if (data.token) {
             window.localStorage.setItem('token', data.token)
         }
@@ -23,11 +24,43 @@ export const registerUser = createAsyncThunk('auth/registerUser', async ({ usern
     }
 })
 
+export const loginUser = createAsyncThunk('auth/loginUser', async ({ username, password }) => {
+    try {
+        const { data } = await axios.post('/auth/login', {
+            username,
+            password
+        })
+        if (data.token) {
+            window.localStorage.setItem('token', data.token)
+        }
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const getMe = createAsyncThunk('auth/loginUser', async () => {
+    try {
+        const { data } = await axios.get('/auth/me')
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.user = null
+            state.token = null
+            state.status = null
+            state.isLoading = false
+        }
+    },
     extraReducers: {
+        // Register user
         [registerUser.pending]: (state) => {
             state.isLoading = true
             state.status = null
@@ -41,8 +74,42 @@ export const authSlice = createSlice({
         [registerUser.rejected]: (state, action) => {
             state.isLoading = false
             state.status = action.payload.message
+        },
+        // Login user
+        [loginUser.pending]: (state) => {
+            state.isLoading = true
+            state.status = null
+        },
+        [loginUser.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.status = action.payload.message
+            state.user = action.payload.user
+            state.token = action.payload.token
+        },
+        [loginUser.rejected]: (state, action) => {
+            state.isLoading = false
+            state.status = action.payload.message
+        },
+        // Get Me
+        [loginUser.pending]: (state) => {
+            state.isLoading = true
+            state.status = null
+        },
+        [loginUser.fulfilled]: (state, action) => {
+            state.isLoading = false
+            state.status = null
+            state.user = action.payload?.user
+            state.token = action.payload?.token
+        },
+        [loginUser.rejected]: (state, action) => {
+            state.isLoading = false
+            state.status = action.payload.message
         }
     }
 })
+
+export const checkIsAuth = (state) => Boolean(state.auth.token)
+
+export const { logout } = authSlice.actions
 
 export default authSlice.reducer

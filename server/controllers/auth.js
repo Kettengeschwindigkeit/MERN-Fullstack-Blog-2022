@@ -35,6 +35,7 @@ export const register = async (req, res) => {
 
         res.json({
             newUser,
+            token,
             message: 'Registering successful'
         })
 
@@ -63,6 +64,14 @@ export const login = async (req, res) => {
                 message: 'Password is wrong'
             })
         }
+
+        const token = jwt.sign(
+            {
+                id: user._id
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '30d' }
+        )
 
         res.json({
             token, user, message: 'Welcome!'

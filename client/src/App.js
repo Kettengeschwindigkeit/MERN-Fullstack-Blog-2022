@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { Layout } from './components/Layout'
 import { AddPostPage } from './pages/AddPostPage'
 import { EditPostPage } from './pages/EditPostPage'
@@ -8,10 +11,15 @@ import { MainPage } from './pages/MainPage'
 import { PostPage } from './pages/PostPage'
 import { PostsPage } from './pages/PostsPage'
 import { RegisterPage } from './pages/RegisterPage'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { getMe } from './redux/features/auth/authSlice'
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getMe())
+  }, [dispatch])
+
   return (
     <Layout>
       <Routes>

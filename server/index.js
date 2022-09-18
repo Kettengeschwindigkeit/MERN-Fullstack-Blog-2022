@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 import authRoute from './routes/auth.js'
+import postRoute from './routes/post.js'
 
 const app = express()
 dotenv.config()
@@ -20,6 +21,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/auth', authRoute)
+app.use('/api/posts', postRoute)
 
 app.get('/', (req, res) => {
     return res.json({ message: 'Everything is ok' })

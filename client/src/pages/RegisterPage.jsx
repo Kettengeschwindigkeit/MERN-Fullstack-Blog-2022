@@ -8,6 +8,7 @@ export const RegisterPage = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const { status } = useSelector((state) => state.auth)
+    console.log(status)
     const isAuth = useSelector(checkIsAuth)
     const dispatch = useDispatch()
     const navigate = useNavigate()

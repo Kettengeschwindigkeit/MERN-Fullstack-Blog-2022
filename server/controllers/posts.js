@@ -63,3 +63,15 @@ export const getAll = async (req, res) => {
         res.json({ message: "Something went wrong..."})
     }
 }
+
+// Get Post By Id
+export const getById = async (req, res) => {
+    try {
+        const post = await Post.findOneAndUpdate(req.params.id, {
+            $inc: { views: 1 }
+        })
+        res.json(post)
+    } catch (error) {
+        res.json({ message: "Something went wrong..."})
+    }
+}

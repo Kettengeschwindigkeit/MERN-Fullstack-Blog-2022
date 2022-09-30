@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { AiFillEye, AiOutlineMessage } from 'react-icons/ai'
 import Moment from 'react-moment'
 
@@ -12,7 +13,8 @@ export const PostItem = ({ post }) => {
     }
 
     return (
-        <div className='flex flex-col basis-1/4 flex-grow'>
+        <Link to={`/${post._id}`}>
+                    <div className='flex flex-col basis-1/4 flex-grow'>
             <div className={post.imgUrl ? 'flex h-80 rounded-sm' : 'flex rounded-sm'}>
                 {post.imgUrl && (
                     <img src={`http://localhost:3002/${post.imgUrl}`} alt='img' className='object-cover w-full' />
@@ -35,5 +37,7 @@ export const PostItem = ({ post }) => {
                 </button>
             </div>
         </div>
+        </Link>
+
     )
 }
